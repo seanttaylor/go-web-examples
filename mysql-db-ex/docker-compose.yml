@@ -1,0 +1,29 @@
+version: "3.1"
+
+services:
+  mysql:
+    container_name: db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_DATABASE: muenster
+    networks:
+      - shared_network
+    ports:
+      - "3306:3306"
+  app:
+    container_name: app
+    image: mysql-db-ex:0.0.7
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./:/app
+    networks:
+      - shared_network
+    depends_on:
+      - mysql
+networks:
+  shared_network:
